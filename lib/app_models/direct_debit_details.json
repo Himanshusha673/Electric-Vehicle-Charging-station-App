@@ -1,0 +1,10 @@
+{
+  "customer_id": "CU000GDQBX2ERF",
+  "creditor_id": "CR000067JRK0N1",
+  "bank_account_list": [
+    {
+      "id": 18,
+      "bank_account_id": "BA000FW9TP37HD"
+    }
+  ]
+}

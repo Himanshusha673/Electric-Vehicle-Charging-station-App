@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<full-backup-content>
+    <!-- TODO Remove the following "exclude" elements to make them a part of the auto backup -->
+    <!-- Exclude the shared preferences file that contains the GCM registrationId -->
+    <exclude
+        domain="sharedpref"
+        path="scheduled_notifications.xml" />
+    <exclude
+        domain="sharedpref"
+        path="notification_plugin_cache.xml" />
+    <exclude
+        domain="sharedpref"
+        path="GEOLOCATOR_PERMISSIONS_DENIED_FOREVER.xml" />
+</full-backup-content>

@@ -1,0 +1,42 @@
+{
+  "chargeBoxDetails": {
+    "desc_order": 141,
+    "vendor": "Alfen BV",
+    "Connectors available": 2,
+    "charge_box_id": "NGV_0050",
+    "connector_list": [
+      {
+        "connector_pk": 535,
+        "charge_box_id": "NGV_0050",
+        "connector_id": 0
+      },
+      {
+        "connector_pk": 536,
+        "charge_box_id": "NGV_0050",
+        "connector_id": 1
+      }
+    ],
+    "connector_description": "WCL 141",
+    "street": "Wood Lane",
+    "connector_id": 1,
+    "house_number": null,
+    "zip_code": "W12 7RQ",
+    "city": "London",
+    "country": null,
+    "connector_status": "Available",
+    "longitude": "-0.22276600",
+    "latitude": "51.51136700",
+    "tariff": [
+      {
+        "max": "0.151400"
+      },
+      {
+        "min": "0.109700"
+      }
+    ]
+  },
+  "connectorId": 1,
+  "transactionId": "2011",
+  "idTag": "",
+  "paymentMethodType": 1
+}
