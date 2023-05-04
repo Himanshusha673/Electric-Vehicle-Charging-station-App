@@ -1,5 +1,6 @@
 name: greenpointev
-description: GreenPoint EV is an Electric Vehicle charge point operator, specialising in commercial & multi-residential properties.
+description: GreenPoint EV is an Electric Vehicle charge point operator,
+  specialising in commercial & multi-residential properties.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
@@ -21,18 +22,15 @@ environment:
   sdk: ">=2.13.0 <3.0.0"
 
 dependencies:
-  flutter:
-    sdk: flutter
-
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
   another_flushbar: 1.10.22
   cupertino_icons: ^1.0.3
   fl_chart: 0.36.3
+  flutter:
+    sdk: flutter
   flutter_credit_card: 2.0.0
-  flutter_local_notifications: 8.0.0
-  flutter_svg: 0.22.0
+  flutter_local_notifications: 14.0.0+1 
+  flutter_stripe: ^4.0.0
+  flutter_svg: 2.0.5
   geolocator: 9.0.2
   google_fonts: 2.1.0
   google_maps_flutter: 2.1.12
@@ -43,18 +41,13 @@ dependencies:
   location: ^4.4.0
   lottie: 1.1.0
   mailer: 5.0.1
-  pdf_flutter: 
+  pdf_flutter:
     git: https://github.com/erluxman/pdf_flutter
   permission_handler: 10.2.0
   provider: 5.0.0
-  sizer: 2.0.13
   shimmer: 2.0.0
-  # stripe_payment: 1.1.4
-  
-  flutter_stripe: ^4.0.0
-#dependency_overrides:
-  #platform: ^3.1.0
-  #platform: ^3.1.0
+  sizer: 2.0.13
+  sqflite: ^2.2.8
 
 dev_dependencies:
   flutter_lints: ^1.0.4
@@ -63,7 +56,6 @@ dev_dependencies:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
-
 # The following section is specific to Flutter.
 flutter:
 
@@ -79,13 +71,10 @@ flutter:
     - assets/pdf/
     - assets/svg/
   #   - images/a_dot_ham.jpeg
-
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
-
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/assets-and-images/#from-packages
-
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
   # "family" key with the font family name, and a "fonts" key with a

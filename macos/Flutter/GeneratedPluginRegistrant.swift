@@ -8,7 +8,7 @@ import Foundation
 import flutter_local_notifications
 import geolocator_apple
 import location
-import path_provider_macos
+import path_provider_foundation
 import sqflite
 
 func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {

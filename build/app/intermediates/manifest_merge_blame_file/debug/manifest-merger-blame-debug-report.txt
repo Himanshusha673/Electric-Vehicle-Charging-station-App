@@ -123,7 +123,7 @@
 73        <activity
 74            android:name="com.greenpointev.MainActivity"
 75            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
-76            android:exported="false"
+76            android:exported="true"
 77            android:hardwareAccelerated="true"
 78            android:launchMode="singleTop"
 79            android:showWhenLocked="true"
