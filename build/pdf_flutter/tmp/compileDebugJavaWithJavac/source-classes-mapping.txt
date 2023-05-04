@@ -1,0 +1,8 @@
+com/erluxman/pdf_flutter/PdfFlutterFactory.java
+ com.erluxman.pdf_flutter.PdfFlutterFactory
+com/erluxman/pdf_flutter/PdfViewer.java
+ com.erluxman.pdf_flutter.PdfViewer
+com/erluxman/pdf_flutter/PdfFlutterPlugin.java
+ com.erluxman.pdf_flutter.PdfFlutterPlugin
+com/erluxman/pdf_flutter/BuildConfig.java
+ com.erluxman.pdf_flutter.BuildConfig

@@ -33,7 +33,7 @@ dependencies:
   flutter_credit_card: 2.0.0
   flutter_local_notifications: 8.0.0
   flutter_svg: 0.22.0
-  geolocator: 8.2.0
+  geolocator: 9.0.2
   google_fonts: 2.1.0
   google_maps_flutter: 2.1.12
   hive: 2.0.4
@@ -45,7 +45,7 @@ dependencies:
   mailer: 5.0.1
   pdf_flutter: 
     git: https://github.com/erluxman/pdf_flutter
-  permission_handler: 9.0.2
+  permission_handler: 10.2.0
   provider: 5.0.0
   sizer: 2.0.13
   shimmer: 2.0.0

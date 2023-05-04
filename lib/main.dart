@@ -14,7 +14,6 @@ void main() async {
 
 class GreenPointEVApp extends StatelessWidget {
   const GreenPointEVApp({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Sizer(

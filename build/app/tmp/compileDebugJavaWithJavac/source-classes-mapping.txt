@@ -1,0 +1,6 @@
+io/flutter/plugins/GeneratedPluginRegistrant.java
+ io.flutter.plugins.GeneratedPluginRegistrant
+com/greenpointev/BuildConfig.java
+ com.greenpointev.BuildConfig
+com/greenpointev/MainActivity.java
+ com.greenpointev.MainActivity
