@@ -1183,14 +1183,19 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
             padding: modalConfig.confirmMargin ??
                 const EdgeInsets.fromLTRB(0, 0, 10, 0),
             child: ElevatedButton.icon(
-              style: ElevatedButton.styleFrom(textStyle: TextStyle(color: modalConfig.confirmIsLight
-                  ? modalConfig.confirmColor
-                  : Colors.white, ), 
-                  backgroundColor: modalConfig.confirmIsDark ? modalConfig.confirmColor : null, ),
+              style: ElevatedButton.styleFrom(
+                textStyle: TextStyle(
+                  color: modalConfig.confirmIsLight
+                      ? modalConfig.confirmColor
+                      : Colors.white,
+                ),
+                backgroundColor:
+                    modalConfig.confirmIsDark ? modalConfig.confirmColor : null,
+              ),
               icon: modalConfig.confirmIcon!,
               label: modalConfig.confirmLabel!,
               // color:
-                  // modalConfig.confirmIsDark ? modalConfig.confirmColor : null,
+              // modalConfig.confirmIsDark ? modalConfig.confirmColor : null,
               // textColor: modalConfig.confirmIsLight
               //     ? modalConfig.confirmColor
               //     : Colors.white,
@@ -1546,7 +1551,7 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
           isScrollControlled: true,
           builder: (_) {
             final MediaQueryData mediaQuery =
-                MediaQueryData.fromWindow(WidgetsBinding.instance!.window);
+                MediaQueryData.fromWindow(WidgetsBinding.instance.window);
             final double topObstructions = mediaQuery.viewPadding.top;
             final double bottomObstructions = mediaQuery.viewPadding.bottom;
             final double keyboardHeight = mediaQuery.viewInsets.bottom;
