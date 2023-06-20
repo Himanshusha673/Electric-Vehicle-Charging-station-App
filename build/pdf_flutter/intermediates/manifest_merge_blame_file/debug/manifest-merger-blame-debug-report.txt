@@ -3,10 +3,10 @@
 3    package="com.erluxman.pdf_flutter" >
 4
 5    <uses-sdk android:minSdkVersion="16" />
-5-->C:\Users\Acer\Documents\flutter\.pub-cache\git\pdf_flutter-7db7d815c0d5c45e69883049be10c6ce851f33ef\android\src\main\AndroidManifest.xml
+5-->C:\Users\ADMIN\AppData\Local\Pub\Cache\git\pdf_flutter-7db7d815c0d5c45e69883049be10c6ce851f33ef\android\src\main\AndroidManifest.xml
 6
 7    <uses-permission android:name="android.permission.INTERNET" />
-7-->C:\Users\Acer\Documents\flutter\.pub-cache\git\pdf_flutter-7db7d815c0d5c45e69883049be10c6ce851f33ef\android\src\main\AndroidManifest.xml:3:5-67
-7-->C:\Users\Acer\Documents\flutter\.pub-cache\git\pdf_flutter-7db7d815c0d5c45e69883049be10c6ce851f33ef\android\src\main\AndroidManifest.xml:3:22-64
+7-->C:\Users\ADMIN\AppData\Local\Pub\Cache\git\pdf_flutter-7db7d815c0d5c45e69883049be10c6ce851f33ef\android\src\main\AndroidManifest.xml:3:5-67
+7-->C:\Users\ADMIN\AppData\Local\Pub\Cache\git\pdf_flutter-7db7d815c0d5c45e69883049be10c6ce851f33ef\android\src\main\AndroidManifest.xml:3:22-64
 8
 9</manifest>

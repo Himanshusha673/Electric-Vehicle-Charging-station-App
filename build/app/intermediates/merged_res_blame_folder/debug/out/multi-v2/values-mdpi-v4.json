@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\Acer\\Desktop\\inindia\\gpev-flutter\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-mdpi-v4\\values-mdpi-v4.xml",
+            "outputFile": "C:\\Users\\ADMIN\\Desktop\\INIDIA\\projects\\gpev-flutter\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-mdpi-v4\\values-mdpi-v4.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Acer\\.gradle\\caches\\transforms-3\\39d3f1c1bb2c02380f28a00ed5f37e8b\\transformed\\jetified-payments-core-20.4.0\\res\\values-mdpi-v4\\values-mdpi-v4.xml",
+                    "source": "C:\\Users\\ADMIN\\.gradle\\caches\\transforms-3\\42455ed784dd379f7eeef7cb48fd465e\\transformed\\jetified-payments-core-20.4.0\\res\\values-mdpi-v4\\values-mdpi-v4.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

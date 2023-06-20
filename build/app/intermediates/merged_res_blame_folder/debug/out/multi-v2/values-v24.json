@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\Acer\\Desktop\\inindia\\gpev-flutter\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v24\\values-v24.xml",
+            "outputFile": "C:\\Users\\ADMIN\\Desktop\\INIDIA\\projects\\gpev-flutter\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v24\\values-v24.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Acer\\.gradle\\caches\\transforms-3\\ca399cc0168a91f08d893bda73c92225\\transformed\\material-1.6.0\\res\\values-v24\\values-v24.xml",
+                    "source": "C:\\Users\\ADMIN\\.gradle\\caches\\transforms-3\\1a8d4f5d8b90b065a2b6d76ae225d65f\\transformed\\material-1.6.0\\res\\values-v24\\values-v24.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,9,12,15",
                         "startColumns": "4,4,4,4,4,4,4,4",
@@ -23,7 +23,17 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Acer\\.gradle\\caches\\transforms-3\\60b86a296455241d179a798d1228a917\\transformed\\media-1.1.0\\res\\values-v24\\values-v24.xml",
+                    "source": "C:\\Users\\ADMIN\\.gradle\\caches\\transforms-3\\4a6932ed1e4a8bcc9136f6873dee697f\\transformed\\appcompat-1.4.1\\res\\values-v24\\values-v24.xml",
+                    "from": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,212",
+                        "endColumns": "156,134",
+                        "endOffsets": "207,342"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\ADMIN\\.gradle\\caches\\transforms-3\\f9e991f19b2b12b37e51c201e9c56961\\transformed\\media-1.1.0\\res\\values-v24\\values-v24.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",
@@ -37,16 +47,6 @@
                         "startOffsets": "1547,1613,1674,1740",
                         "endColumns": "65,60,65,66",
                         "endOffsets": "1608,1669,1735,1802"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\Acer\\.gradle\\caches\\transforms-3\\d834585028933102bd077a669df00d28\\transformed\\appcompat-1.4.1\\res\\values-v24\\values-v24.xml",
-                    "from": {
-                        "startLines": "2,3",
-                        "startColumns": "4,4",
-                        "startOffsets": "55,212",
-                        "endColumns": "156,134",
-                        "endOffsets": "207,342"
                     }
                 }
             ]

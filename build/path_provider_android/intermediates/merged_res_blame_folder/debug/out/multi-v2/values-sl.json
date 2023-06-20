@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\Acer\\Desktop\\inindia\\gpev-flutter\\build\\path_provider_android\\intermediates\\res\\merged\\debug\\values-sl\\values-sl.xml",
+            "outputFile": "C:\\Users\\ADMIN\\Desktop\\INIDIA\\projects\\gpev-flutter\\build\\path_provider_android\\intermediates\\res\\merged\\debug\\values-sl\\values-sl.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Acer\\.gradle\\caches\\transforms-3\\78cd102ce28d9803daf04e053ee41198\\transformed\\core-1.6.0\\res\\values-sl\\values-sl.xml",
+                    "source": "C:\\Users\\ADMIN\\.gradle\\caches\\transforms-3\\18a72ac1f4cda5cfe288482755b4d6b2\\transformed\\core-1.6.0\\res\\values-sl\\values-sl.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -16,10 +16,10 @@
             ]
         },
         {
-            "outputFile": "C:\\Users\\Acer\\Desktop\\inindia\\gpev-flutter\\build\\path_provider_android\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-sl\\values-sl.xml",
+            "outputFile": "C:\\Users\\ADMIN\\Desktop\\INIDIA\\projects\\gpev-flutter\\build\\path_provider_android\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-sl\\values-sl.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Acer\\.gradle\\caches\\transforms-3\\78cd102ce28d9803daf04e053ee41198\\transformed\\core-1.6.0\\res\\values-sl\\values-sl.xml",
+                    "source": "C:\\Users\\ADMIN\\.gradle\\caches\\transforms-3\\18a72ac1f4cda5cfe288482755b4d6b2\\transformed\\core-1.6.0\\res\\values-sl\\values-sl.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

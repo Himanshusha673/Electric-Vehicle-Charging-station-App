@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\Acer\\Desktop\\inindia\\gpev-flutter\\build\\google_maps_flutter_android\\intermediates\\res\\merged\\debug\\values-iw\\values-iw.xml",
+            "outputFile": "C:\\Users\\ADMIN\\Desktop\\INIDIA\\projects\\gpev-flutter\\build\\google_maps_flutter_android\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-iw\\values-iw.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Acer\\.gradle\\caches\\transforms-3\\e1992b6d1e8eae6e213b167cd91b5780\\transformed\\jetified-play-services-base-18.0.1\\res\\values-iw\\values.xml",
+                    "source": "C:\\Users\\ADMIN\\.gradle\\caches\\transforms-3\\ae0f022af675ed6d6bb180c306478d4c\\transformed\\jetified-play-services-base-18.0.1\\res\\values-iw\\values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -21,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Acer\\.gradle\\caches\\transforms-3\\b8e2df40e66fc9686d615da5c84a30ef\\transformed\\jetified-play-services-basement-18.0.0\\res\\values-iw\\values.xml",
+                    "source": "C:\\Users\\ADMIN\\.gradle\\caches\\transforms-3\\176adc472b9e421ec58329d6ecc832fa\\transformed\\jetified-play-services-basement-18.0.0\\res\\values-iw\\values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",
@@ -38,7 +38,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Acer\\.gradle\\caches\\transforms-3\\78cd102ce28d9803daf04e053ee41198\\transformed\\core-1.6.0\\res\\values-iw\\values-iw.xml",
+                    "source": "C:\\Users\\ADMIN\\.gradle\\caches\\transforms-3\\18a72ac1f4cda5cfe288482755b4d6b2\\transformed\\core-1.6.0\\res\\values-iw\\values-iw.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -57,10 +57,10 @@
             ]
         },
         {
-            "outputFile": "C:\\Users\\Acer\\Desktop\\inindia\\gpev-flutter\\build\\google_maps_flutter_android\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-iw\\values-iw.xml",
+            "outputFile": "C:\\Users\\ADMIN\\Desktop\\INIDIA\\projects\\gpev-flutter\\build\\google_maps_flutter_android\\intermediates\\res\\merged\\debug\\values-iw\\values-iw.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Acer\\.gradle\\caches\\transforms-3\\e1992b6d1e8eae6e213b167cd91b5780\\transformed\\jetified-play-services-base-18.0.1\\res\\values-iw\\values.xml",
+                    "source": "C:\\Users\\ADMIN\\.gradle\\caches\\transforms-3\\ae0f022af675ed6d6bb180c306478d4c\\transformed\\jetified-play-services-base-18.0.1\\res\\values-iw\\values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -77,7 +77,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Acer\\.gradle\\caches\\transforms-3\\b8e2df40e66fc9686d615da5c84a30ef\\transformed\\jetified-play-services-basement-18.0.0\\res\\values-iw\\values.xml",
+                    "source": "C:\\Users\\ADMIN\\.gradle\\caches\\transforms-3\\176adc472b9e421ec58329d6ecc832fa\\transformed\\jetified-play-services-basement-18.0.0\\res\\values-iw\\values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",
@@ -94,7 +94,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Acer\\.gradle\\caches\\transforms-3\\78cd102ce28d9803daf04e053ee41198\\transformed\\core-1.6.0\\res\\values-iw\\values-iw.xml",
+                    "source": "C:\\Users\\ADMIN\\.gradle\\caches\\transforms-3\\18a72ac1f4cda5cfe288482755b4d6b2\\transformed\\core-1.6.0\\res\\values-iw\\values-iw.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

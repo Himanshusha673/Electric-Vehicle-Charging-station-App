@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\Acer\\Desktop\\inindia\\gpev-flutter\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-de-rDE\\values-de-rDE.xml",
+            "outputFile": "C:\\Users\\ADMIN\\Desktop\\INIDIA\\projects\\gpev-flutter\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-de-rDE\\values-de-rDE.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Acer\\.gradle\\caches\\transforms-3\\d1a03430d29f00f5e3b57ade60ddeb84\\transformed\\jetified-stripe-3ds2-android-6.1.5\\res\\values-de-rDE\\values-de-rDE.xml",
+                    "source": "C:\\Users\\ADMIN\\.gradle\\caches\\transforms-3\\f1f49ecd6d3c1e4bc40f6fc37711d0f6\\transformed\\jetified-stripe-3ds2-android-6.1.5\\res\\values-de-rDE\\values-de-rDE.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8",
                         "startColumns": "4,4,4,4,4,4,4",
