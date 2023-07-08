@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -92,6 +93,8 @@ class ConnectApi {
                 'Authorization': 'Bearer ${ConnectHiveSessionData.getToken}',
             },
       );
+      log('API Request url:$url and Status Code is : ${response.statusCode}');
+      log('API Response is : ${response.body.toString()}');
     } on SocketException {
       debugPrint('SocketException');
       return Future.value(null);

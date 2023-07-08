@@ -1,7 +1,6 @@
 library app_utils.connect.hive;
 
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:hive/hive.dart';
 
@@ -11,6 +10,7 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import '../../../app_models/charging_scheduled_details_model.dart' as cschdm;
 import '../../../app_models/charging_started_details_model.dart' as cstadm;
 import '../../../app_models/direct_debit_details_model.dart' as dddm;
+import '../../../app_models/timezone_model.dart';
 
 part 'boxes/connect_hive_network_data.dart';
 part 'boxes/connect_hive_session_data.dart';

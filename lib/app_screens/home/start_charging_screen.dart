@@ -4,13 +4,13 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../../app_models/timezone_model.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 // import 'package:stripe_payment/stripe_payment.dart';
 import 'package:flutter_stripe/flutter_stripe.dart' as fs;
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-
 import '../../app_models/chargeBox_details_model.dart' as cdm;
 import '../../app_models/charging_scheduled_details_model.dart' as cschdm;
 import '../../app_models/charging_started_details_model.dart' as cstadm;
@@ -19,7 +19,7 @@ import '../../app_services/app_api_collection.dart';
 import '../../app_utils/app_functions.dart';
 import '../../app_utils/connect/hive/connect_hive.dart';
 import '../../app_utils/widgets/widgets.dart';
-import '../../flutter_StripeFiles/connect_strip_payment1.dart';
+
 import '../settings/add_charge_card_screen.dart';
 import '../settings/settings_screen.dart';
 import 'stop_charging_screen.dart';
@@ -37,12 +37,14 @@ enum _Button {
 
 class StartChargingScreen extends StatefulWidget {
   final String? chargeBoxId;
-final String chargeType;
-final String tariffData;
+  final String chargeType;
+  final String tariffData;
 
   const StartChargingScreen({
     Key? key,
-    @required this.chargeBoxId, required this.chargeType, required this.tariffData,
+    @required this.chargeBoxId,
+    required this.chargeType,
+    required this.tariffData,
   }) : super(key: key);
 
   @override
@@ -62,58 +64,60 @@ class _StartChargingScreenState extends State<StartChargingScreen> {
       ValueNotifier<_Button>(_Button.start_charging);
   Map<String, dynamic>? _chargeBoxDetails;
   // var _chargeBoxDetails;
-  var _chargeType=[];
+  var _chargeType = [];
   String _connectorDropdownId = '1';
   bool _isOngoingTransaction = false;
   String? _transactionId;
-   List _chargeBoxList = [];
-   var mapResponse={};
- List get getChargeBoxList => _chargeBoxList;
+  List _chargeBoxList = [];
+  var mapResponse = {};
+  List get getChargeBoxList => _chargeBoxList;
   Future postRes(String sta) async {
-     var headers = {
-  'Content-Type': 'application/json'
-};
-var request = http.Request('POST', Uri.parse('https://api.greenpointev.com/inindia.tech/public/api/CharingStatus/${ConnectHiveSessionData.getEmail}'));
-request.body = json.encode({
-       'user': ConnectHiveSessionData.getEmail,
+    var headers = {'Content-Type': 'application/json'};
+    var request = http.Request(
+        'POST',
+        Uri.parse(
+            'https://api.greenpointev.com/inindia.tech/public/api/CharingStatus/${ConnectHiveSessionData.getEmail}'));
+    request.body = json.encode({
+      'user': ConnectHiveSessionData.getEmail,
       'status': sta,
-});
-request.headers.addAll(headers);
+    });
+    request.headers.addAll(headers);
 
-http.StreamedResponse response = await request.send();
-if (response.statusCode == 200) {
-  log("start Charging api");
-  log(request.body);
-  log(await response.stream.bytesToString());
-  
-}
-else {
-  print(response.reasonPhrase);
-}
+    http.StreamedResponse response = await request.send();
+    if (response.statusCode == 200) {
+      log("start Charging api");
+      log(request.body);
+      log(await response.stream.bytesToString());
+    } else {
+      print(response.reasonPhrase);
+    }
   }
+
 //! Call charging status api
- Future apicall() async {
+  Future apicall() async {
     http.Response responseL;
     //responseL=status as http.Response;
-    String url ='https://api.greenpointev.com/inindia.tech/public/api/CharingStatus/${ConnectHiveSessionData.getEmail}';
-    responseL = await http.get(Uri.parse(url),
+    String url =
+        'https://api.greenpointev.com/inindia.tech/public/api/CharingStatus/${ConnectHiveSessionData.getEmail}';
+    responseL = await http.get(
+      Uri.parse(url),
       headers: {"Content-Type": "application/json"},
     );
     print("${responseL.statusCode}");
     print("${responseL.body}");
-    
-    if(responseL.statusCode == 200){
+
+    if (responseL.statusCode == 200) {
       setState(() {
-        
         mapResponse = json.decode(responseL.body);
         print("data");
       });
     }
   }
+
   Future _loadData() async {
     await _getDirectDebitToken();
     // await _getDirectDebitData();
-  //  await _getChargeBoxDetail();
+    //  await _getChargeBoxDetail();
     await _getChargeBoxDetails();
   }
 
@@ -201,22 +205,17 @@ else {
     }
     return res;
   }
+
   //! Get ChargeType form HomeScreen API
   Future _getChargeBoxDetail() async {
-    var res = await AppApiCollection.getHomeData(
-       );
+    var res = await AppApiCollection.getHomeData();
     if (_streamController.isClosed == false) {
       _streamController.sink.add(res);
     }
-    _chargeType=res["details"];
+    _chargeType = res["details"];
     print(res["details"][0]["charge_type"].toString());
     return _chargeType;
   }
-
-
- 
-
-
 
   Future _getDirectDebitToken() async {
     var res = await AppApiCollection.getDirectDebitToken(
@@ -268,17 +267,30 @@ else {
     required String? idTag,
   }) async {
     _pleaseWaitNotifier.value = true;
-    Map? _timeZoneRes = await _getTimeZoneData(
-      latitude: double.tryParse(_chargeBoxDetails!['latitude']),
-      longitude: double.tryParse(_chargeBoxDetails!['longitude']),
-    );
-    if (_timeZoneRes == null) {
-      return {
-        'errorMsg': 'something went wrong, Please try after some time',
-      };
-    }
+    num _gmtOffset;
 
-    num _gmtOffset = num.parse("${_timeZoneRes['gmt_offset']}");
+    TimeZoneResponseModel? timeZoneResponse =
+        ConnectHiveSessionData.getTimeZoneDetails;
+    if (timeZoneResponse == null) {
+      debugPrint('timezone is setting into hive');
+      Map<String, dynamic>? _timeZoneRes = await _getTimeZoneData(
+        latitude: double.tryParse(_chargeBoxDetails!['latitude']),
+        longitude: double.tryParse(_chargeBoxDetails!['longitude']),
+      );
+      if (_timeZoneRes == null) {
+        return {
+          'errorMsg': 'something went wrong, Please try after some time',
+        };
+      }
+      timeZoneResponse = TimeZoneResponseModel.fromJson(_timeZoneRes);
+      ConnectHiveSessionData.setTimeZone(timeZoneResponse);
+
+      _gmtOffset = num.parse("${_timeZoneRes['gmt_offset']}");
+    } else {
+      debugPrint('timezone is setted preiously');
+
+      _gmtOffset = num.parse('${timeZoneResponse.gmtOffset}');
+    }
 
     var res = await AppApiCollection.remoteSchedule(
       chargeBoxId: chargeBoxId,
@@ -351,7 +363,6 @@ else {
     debugPrintInit(widget.runtimeType);
     super.initState();
     _initialization();
-    
   }
 
   void _initialization() async {
@@ -379,7 +390,6 @@ else {
 
   @override
   Widget build(BuildContext context) {
-   
     return Scaffold(
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.dark.copyWith(
@@ -398,7 +408,7 @@ else {
                 if (snapshot.hasData) {
                   Map<String, dynamic>? data =
                       snapshot.data as Map<String, dynamic>?;
-                    // log("here ${data!["details"]["charge_box_id"].toString()}");
+                  // log("here ${data!["details"]["charge_box_id"].toString()}");
                   _chargeBoxDetails = data!['details'];
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -449,23 +459,23 @@ else {
                                 height: 40,
                                 child: Divider(),
                               ),
-                              
+
                               _buildPaymentMethodCard,
-                        //      //! Try CreditCard  Payment Option
-                        //       TextButton(onPressed: () async{
-                        //          fs.CardDetails? creditCard =
-                        //     ConnectHiveSessionData.getCardDetails;
-                        //         //  num cost = int.parse(costResponse['cost'].toString());
-                        // StripeTransactionResponse transactionResponse =
-                        //     await ConnectStripePaymentGateway
-                        //         .payViaExistingCard(
-                        //           transId: _transactionId??'data',
-                        //   amount: '100',
-                        //   currency: 'GBP',
-                        //   card: creditCard,
-                        // );
-                        // log("Credit Card");
-                        //       }, child: Text("Check Credit Card")),
+                              //      //! Try CreditCard  Payment Option
+                              //       TextButton(onPressed: () async{
+                              //          fs.CardDetails? creditCard =
+                              //     ConnectHiveSessionData.getCardDetails;
+                              //         //  num cost = int.parse(costResponse['cost'].toString());
+                              // StripeTransactionResponse transactionResponse =
+                              //     await ConnectStripePaymentGateway
+                              //         .payViaExistingCard(
+                              //           transId: _transactionId??'data',
+                              //   amount: '100',
+                              //   currency: 'GBP',
+                              //   card: creditCard,
+                              // );
+                              // log("Credit Card");
+                              //       }, child: Text("Check Credit Card")),
                               SizedBox(
                                   height:
                                       MediaQuery.of(context).size.height / 12),
@@ -482,7 +492,6 @@ else {
                                       valueListenable: _buttonNotifier,
                                       builder: (context, buttonNotifier, _) {
                                         switch (buttonNotifier) {
-
                                           /// schedule Charging
                                           case _Button.schedule_charging:
                                             return _buildScheduleChargingButton;
@@ -621,12 +630,12 @@ else {
                 callback: (val) {
                   if (_pleaseWaitNotifier.value != true) {
                     if (val == true &&
-                         ConnectHive.boxSessionData.get('cardDetails') != null) {
+                        ConnectHive.boxSessionData.get('cardDetails') != null) {
                       _directDebitSwitchNotifier.value = val;
                       _tokenIDSwitchNotifier.value = !val;
                       _creditCardSwitchNotifier.value = !val;
                     } else if (val == true &&
-                         ConnectHive.boxSessionData.get('cardDetails') == null) {
+                        ConnectHive.boxSessionData.get('cardDetails') == null) {
                       _showSnackBar(
                         title: 'Card Payment',
                         callback: () async {
@@ -825,7 +834,7 @@ else {
                       );
                       _pleaseWaitNotifier.value = false;
                       postRes('true');
-                     
+
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
@@ -941,6 +950,7 @@ else {
                 break;
             }
             debugPrint('idTag:\t$idTag');
+            log("schedule charging ");
             await _scheduleCharging(
               chargeBoxId: padQuotes(_chargeBoxDetails!['charge_box_id']),
               connectorId: _connectorDropdownId,
@@ -1203,9 +1213,10 @@ else {
               child: Container(
                 padding: EdgeInsets.symmetric(vertical: 23.0, horizontal: 20.0),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  border: Border.all(color:Theme.of(context).primaryColor,)
-                ),
+                    borderRadius: BorderRadius.circular(10.0),
+                    border: Border.all(
+                      color: Theme.of(context).primaryColor,
+                    )),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -1217,7 +1228,9 @@ else {
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.bodyText1,
                     ),
-                    SizedBox(height: 3,),
+                    SizedBox(
+                      height: 3,
+                    ),
                     Text(
                       // '7KW',
                       widget.chargeType,
@@ -1240,9 +1253,8 @@ else {
               child: Container(
                 padding: EdgeInsets.symmetric(vertical: 23.0, horizontal: 20.0),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  border:Border.all(color: Colors.green)
-                ),
+                    borderRadius: BorderRadius.circular(10.0),
+                    border: Border.all(color: Colors.green)),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -1277,7 +1289,9 @@ else {
                     //     ],
                     //   ),
                     // ),
-                    SizedBox(height: 3,),
+                    SizedBox(
+                      height: 3,
+                    ),
                     Container(
                       padding: EdgeInsets.only(right: 10.0),
                       child: Text(
@@ -1286,7 +1300,7 @@ else {
                         //         "${roundDouble(double.parse("${_chargeBoxDetails!['tariff'][1]['min']}"), 2)}"
                         //         '/ kWh'
                         //     : 'NA',
-                        '£'+widget.tariffData+'/ kWh',
+                        '£' + widget.tariffData + '/ kWh',
                         textAlign: TextAlign.end,
                         style: Theme.of(context).textTheme.bodyText1,
                       ),

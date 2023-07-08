@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
-
 import '../app_providers/on_boarding_provider.dart';
 import '../app_screens/main_screen.dart';
 import '../flutter_StripeFiles/connect_strip_payment1.dart';
@@ -59,7 +58,9 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     debugPrintInit(widget.runtimeType);
+
     super.initState();
+
     _initialize();
   }
 

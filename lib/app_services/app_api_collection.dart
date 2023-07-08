@@ -1,3 +1,4 @@
+import 'dart:developer';
 import '../app_utils/app_functions.dart';
 import '../app_utils/connect/connect_api.dart';
 import '../app_utils/connect/connect_remote.dart';
@@ -57,15 +58,30 @@ class AppApiCollection {
     double? latitude,
     double? longitude,
   }) async {
-    String url = 'https://timezone.abstractapi.com/v1/current_time/?';
-    url += 'api_key=${AppConstants.abstractApiKey}';
-    url += '&';
-    url += 'location=$latitude,$longitude';
+    // old api
+    // String url = 'https://timezone.abstractapi.com/v1/current_time/?';
+    log('aPI KEY IS ${AppConstants.abstractApiKey}');
+
+    // url += 'api_key=${AppConstants.abstractApiKey}';
+    // url += '&';
+    // url += 'location=$latitude,$longitude';
+    // var res = await ConnectApi.getCallMethod(
+    //   url,
+    //   headers: {},
+    //   customUrl: true,
+    // );
+
+    //new api added by 4-july-2023
+    String baseUrl =
+        'https://api.greenpointev.com/inindiatech/v1/current_time/?location=';
+
+    var url = baseUrl + '$latitude,$longitude';
     var res = await ConnectApi.getCallMethod(
       url,
       headers: {},
       customUrl: true,
     );
+
     return res;
   }
 
@@ -330,6 +346,7 @@ class AppApiCollection {
         }
       }
     };
+    log('check1');
     var res = await ConnectRemote.postCallMethod(url, body: body);
     return res;
   }

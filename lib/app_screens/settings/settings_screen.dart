@@ -34,7 +34,7 @@ class SettingsScreen extends StatefulWidget {
 class SettingsScreenState extends State<SettingsScreen> {
   TimeOfDay? _chargeStart;
   TimeOfDay? _chargeEnd;
-  String respon='';
+  String respon = '';
   final ValueNotifier<bool> _switchNotifier = ValueNotifier<bool>(false);
 
   _getDirectDebitDetails() async {
@@ -46,30 +46,31 @@ class SettingsScreenState extends State<SettingsScreen> {
     return res;
   }
 
-Future deleteAccountApiCall() async {
-     var headers = {
-  'Content-Type': 'application/json'
-};
-var request = http.Request('POST', Uri.parse('https://api.greenpointev.com/inindia.tech/public/api/app/request/optout/${ConnectHiveSessionData.getEmail}'));
-request.body = json.encode({
-       'user': ConnectHiveSessionData.getEmail,
+  Future deleteAccountApiCall() async {
+    var headers = {'Content-Type': 'application/json'};
+    var request = http.Request(
+        'POST',
+        Uri.parse(
+            'https://api.greenpointev.com/inindia.tech/public/api/app/request/optout/${ConnectHiveSessionData.getEmail}'));
+    request.body = json.encode({
+      'user': ConnectHiveSessionData.getEmail,
       'deleteMe': 'true',
-});
-request.headers.addAll(headers);
+    });
+    request.headers.addAll(headers);
 
-http.StreamedResponse response = await request.send();
-if (response.statusCode == 200) {
-  respon = 'Account deletion requested successfully. It will take up-to 24 hour to proceed your request, You can still login to your account in this deletion period. To cancel the request please mail us at support@greenpointev.com';
-  log('Delete Account');
-  log(request.body);
-  log(await response.stream.bytesToString());
-  
-}
-else {
-  respon = response.stream.bytesToString().toString();
-  print(response.reasonPhrase);
-}
+    http.StreamedResponse response = await request.send();
+    if (response.statusCode == 200) {
+      respon =
+          'Account deletion requested successfully. It will take up-to 24 hour to proceed your request, You can still login to your account in this deletion period. To cancel the request please mail us at support@greenpointev.com';
+      log('Delete Account');
+      log(request.body);
+      log(await response.stream.bytesToString());
+    } else {
+      respon = response.stream.bytesToString().toString();
+      print(response.reasonPhrase);
+    }
   }
+
   void _initialize() {
     // _getDirectDebitDetails();
     if (ConnectHiveSessionData.getIsSmartChargingEnabled == true) {
@@ -348,6 +349,36 @@ else {
               });
             },
           ),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 1.2.w),
+            child: Center(
+              child: FittedBox(
+                child: RichText(
+                  text: TextSpan(
+                    text: ConnectHiveSessionData.getTimeZoneDetails != null
+                        ? '✔ '
+                        : '✘ ',
+                    style: TextStyle(
+                      fontSize: 13.sp,
+                      color: ConnectHiveSessionData.getTimeZoneDetails != null
+                          ? Colors.green
+                          : Colors.red,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: ConnectHiveSessionData.getTimeZoneDetails != null
+                            ? 'Timezone: ${ConnectHiveSessionData.getTimeZoneDetails?.timezoneName?.toUpperCase()}'
+                            : 'Timezone: UNKNOWN',
+                        style: TextStyle(
+                          fontSize: 13.sp,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
           SizedBox(
             height: 40,
             child: Divider(),
@@ -369,73 +400,92 @@ else {
               ),
             ),
           ),
-          Text("Logout",textAlign: TextAlign.center,),
+          Text(
+            "Logout",
+            textAlign: TextAlign.center,
+          ),
           SizedBox(height: 10),
           _buildTCsAndPrivacy,
-          SizedBox(height: 10,),
-          MaterialButton(onPressed: (){
-          
-            showDialog(context: context,
-            builder:(BuildContext context){
-              return AlertDialog(
-                title: Text('Warning: Destructive Action'),
-              content: Wrap(
-                children: [
-                  Container(
-                    child: Text('Are you sure you want to delete your GPEV Account?'),
-                  ),
-               
-                  Container(
-                    margin: EdgeInsets.only(top: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        MaterialButton(
-                          color: Colors.red,
-                          onPressed: (){
-                          deleteAccountApiCall()
-                        .whenComplete(() => ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(respon))
-                        )).whenComplete(() => 
-                          Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              ChangeNotifierProvider<SignInProvider>(
-                            create: (context) => SignInProvider(),
-                            builder: (context, _) => SignInScreen(),
+          SizedBox(
+            height: 10,
+          ),
+          MaterialButton(
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text('Warning: Destructive Action'),
+                      content: Wrap(
+                        children: [
+                          Container(
+                            child: Text(
+                                'Are you sure you want to delete your GPEV Account?'),
                           ),
-                        ),
-                        (route) => false) 
-                        );
-                        },child: Text("Yes",style: TextStyle(color: Colors.white),),),
-                        // VerticalDivider(
-                        //   thickness: 10.0,
-                        //   width: 7.0,
-                        //   color: Colors.red,
-                        // ),
-                        MaterialButton(
-                          color:Colors.green,
-                          onPressed: (){
-                          Navigator.of(context).pop();
-                        },child: Text("No",style: TextStyle(color: Colors.white),),),
-                      ],
-                    ),
-                  )
-                ],
+                          Container(
+                            margin: EdgeInsets.only(top: 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                MaterialButton(
+                                  color: Colors.red,
+                                  onPressed: () {
+                                    deleteAccountApiCall()
+                                        .whenComplete(() =>
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(SnackBar(
+                                                    content: Text(respon))))
+                                        .whenComplete(
+                                            () => Navigator.pushAndRemoveUntil(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ChangeNotifierProvider<
+                                                          SignInProvider>(
+                                                    create: (context) =>
+                                                        SignInProvider(),
+                                                    builder: (context, _) =>
+                                                        SignInScreen(),
+                                                  ),
+                                                ),
+                                                (route) => false));
+                                  },
+                                  child: Text(
+                                    "Yes",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                                // VerticalDivider(
+                                //   thickness: 10.0,
+                                //   width: 7.0,
+                                //   color: Colors.red,
+                                // ),
+                                MaterialButton(
+                                  color: Colors.green,
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text(
+                                    "No",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    );
+                  });
+            },
+            child: Text(
+              "Delete Account",
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                color: Colors.red,
               ),
-              );
-            }
-             
-       
-            );
-          }, child: Text("Delete Account",
-           
-        textAlign: TextAlign.left,
-        style: TextStyle(color: Colors.red,
-        
-        ),
-          ),)
+            ),
+          )
         ],
       ),
     );

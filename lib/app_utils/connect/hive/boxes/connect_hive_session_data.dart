@@ -11,6 +11,7 @@ class ConnectHiveSessionData {
   static const _chargeEndTime = 'chargeEndTime';
   static const _isSmartChargingEnabled = 'isSmartChargingEnabled';
   static const _directDebitDetails = 'directDebitDetails';
+  static const _timeZoneData = 'timeZoneData';
   static const _isChargingStarted = 'isChargingStarted';
   static const _isChargingScheduled = 'isChargingScheduled';
   static const _chargingStartedDetail = 'chargingStartedDetails';
@@ -61,6 +62,17 @@ class ConnectHiveSessionData {
     return dddm.DirectDebitDetailsModel.fromJson(_data!);
   }
 
+  static TimeZoneResponseModel? get getTimeZoneDetails {
+    Map<String, dynamic>? _data =
+        json.decode(json.encode(ConnectHive.boxSessionData.get(_timeZoneData)))
+            as Map<String, dynamic>?;
+    TimeZoneResponseModel? _timeZoneDetails;
+    if (_data != null) {
+      _timeZoneDetails = TimeZoneResponseModel.fromJson(_data);
+    }
+    return _timeZoneDetails;
+  }
+
   static bool? get getIsChargingStarted =>
       ConnectHive.boxSessionData.get(_isChargingStarted);
 
@@ -93,7 +105,8 @@ class ConnectHiveSessionData {
 
   static CardDetails? get getCardDetails {
     CardDetails? creditCard;
-    print("At get Card : ${ConnectHive.boxSessionData.get(_cardDetails).toString()}");
+    print(
+        "At get Card : ${ConnectHive.boxSessionData.get(_cardDetails).toString()}");
     if (ConnectHive.boxSessionData.get(_cardDetails) != null) {
       // creditCard =
       //     CardDetails.fromJson(ConnectHive.boxSessionData.get(_cardDetails));
@@ -146,6 +159,11 @@ class ConnectHiveSessionData {
   static setCardDetails({required CardDetails creditCard}) =>
       ConnectHive.boxSessionData.put(_cardDetails, creditCard.toJson());
 
+  static setTimeZone(TimeZoneResponseModel data) {
+    Map<String, dynamic> jsonData = data.toJson();
+    ConnectHive.boxSessionData.put(_timeZoneData, jsonData);
+  }
+
   /// delete
   static get deleteToken async =>
       await ConnectHive.boxSessionData.delete(_token);
@@ -161,6 +179,8 @@ class ConnectHiveSessionData {
 
   static get deleteDirectDebitToken async =>
       await ConnectHive.boxSessionData.delete(_directDebitToken);
+  static get deleteTimeZone async =>
+      await ConnectHive.boxSessionData.delete(_timeZoneData);
 
   static get deleteChargeStartTime async =>
       await ConnectHive.boxSessionData.delete(_chargeStartTime);

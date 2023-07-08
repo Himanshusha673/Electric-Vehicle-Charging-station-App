@@ -15,6 +15,9 @@ class AppConstants {
   };
   static const String abstractApiKey = '7c3998d5158f40b8b1b1fd332de268ea';
 
+// testing api key for getting timezone added by Himanshu  its trial beased
+  //static const String abstractApiKey = 'bed9558530ca49b09ea9da00718f4831';
+
   static const PayterServersType payterServersType = PayterServersType.test;
 
   static const StripeAccountType stripeAccountType = StripeAccountType.live;
