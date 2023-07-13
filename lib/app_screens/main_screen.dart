@@ -6,7 +6,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-
 import '../app_providers/home/home_screen_list_view_provider.dart';
 import '../app_providers/home/home_screen_map_view_provider.dart';
 import '../app_providers/settings_provider.dart';
@@ -18,8 +17,6 @@ import 'history/history_screen.dart';
 import 'home/home_screen_list_view.dart';
 import 'home/home_screen_map_view.dart';
 import 'home/stop_charging_screen.dart';
-
-
 
 class MainScreen extends StatefulWidget {
   final HomeBottomNavigationItem? homeBottomNavigationItem;
@@ -37,35 +34,37 @@ class _MainScreenState extends State<MainScreen> {
   final ValueNotifier<HomeViewType> _homeViewTypeNotifier =
       ValueNotifier<HomeViewType>(HomeViewType.list);
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  var mapResponse={};
+  var mapResponse = {};
   var sapResponse;
-  bool status =false;
+  bool status = false;
 
-  Stream<bool?> stat() async*{
+  Stream<bool?> stat() async* {
     http.Response responseL;
-    String url ='https://api.greenpointev.com/inindia.tech/public/api/CharingStatus/${ConnectHiveSessionData.getEmail}';
-    responseL = await http.get(Uri.parse(url),
+    String url =
+        'https://api.greenpointev.com/inindia.tech/public/api/CharingStatus/${ConnectHiveSessionData.getEmail}';
+    responseL = await http.get(
+      Uri.parse(url),
       headers: {"Content-Type": "application/json"},
     );
     print("${responseL.body}");
-    sapResponse= jsonDecode(responseL.body);
+    sapResponse = jsonDecode(responseL.body);
     yield !sapResponse['status'];
   }
-
 
   Future apicall() async {
     http.Response responseL;
     //responseL=status as http.Response;
-    String url ='https://api.greenpointev.com/inindia.tech/public/api/CharingStatus/${ConnectHiveSessionData.getEmail}';
-    responseL = await http.get(Uri.parse(url),
+    String url =
+        'https://api.greenpointev.com/inindia.tech/public/api/CharingStatus/${ConnectHiveSessionData.getEmail}';
+    responseL = await http.get(
+      Uri.parse(url),
       headers: {"Content-Type": "application/json"},
     );
     print("${responseL.statusCode}");
     print("${responseL.body}");
-    
-    if(responseL.statusCode == 200){
+
+    if (responseL.statusCode == 200) {
       setState(() {
-        
         mapResponse = json.decode(responseL.body);
         print("data");
       });
@@ -98,7 +97,6 @@ class _MainScreenState extends State<MainScreen> {
       floatingActionButton: _buildFabButton,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       bottomNavigationBar: _buildBottomNavigationBar,
-
     );
   }
 
@@ -107,7 +105,6 @@ class _MainScreenState extends State<MainScreen> {
       valueListenable: _pageIndexNotifier,
       builder: (context, index, _) {
         switch (index) {
-
           /// Home Screen
           case 0:
             return ValueListenableBuilder<HomeViewType>(
@@ -209,7 +206,7 @@ class _MainScreenState extends State<MainScreen> {
             items: [
               /// Home
               BottomNavigationBarItem(
-              activeIcon: _buildActiveIcon('assets/svg/Home.svg'),
+                activeIcon: _buildActiveIcon('assets/svg/Home.svg'),
                 icon: SizedBox(
                   width: 20.sp,
                   height: 20.sp,
@@ -278,40 +275,46 @@ class _MainScreenState extends State<MainScreen> {
       stream: ConnectHiveSessionData.watchIsChargingStarted,
       builder: (context, snapshot) {
         return StreamBuilder(
-          stream: Stream.periodic(Duration(seconds:10)).asyncMap((i) => stat()) ,
+          stream:
+              Stream.periodic(Duration(seconds: 10)).asyncMap((i) => stat()),
           builder: (context, snapshot) {
             return Container(
-              margin: EdgeInsets.only(top: 8.0),
-              padding: EdgeInsets.all(2.sp),
-              decoration: BoxDecoration(
-                color: (mapResponse['status'].toString() == 'true')
-                    ? Theme.of(context).primaryColor
-                    : Theme.of(context).unselectedWidgetColor,
-                shape: BoxShape.circle,
-              ),
-              child: IconButton(
-                onPressed:
-                // (){
-                //   print(mapResponse["status"]+"mkakdfmadsf");
-                // },
-                (mapResponse['status'].toString() == "true")?
-                    (){
-                      
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => StopChargingScreen(
-                        chargingStartedDetails: ConnectHiveSessionData
-                            .getChargingStartedDetails,
-                        chargingScheduledDetails: ConnectHiveSessionData
-                            .getChargingScheduledDetails,
-                      ),
-                    ),
-                  );
-                }:(){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) =>MainScreen()));
-                },
-                /*onPressed:
+                margin: EdgeInsets.only(top: 8.0),
+                padding: EdgeInsets.all(2.sp),
+                decoration: BoxDecoration(
+                  color: (mapResponse['status'].toString() == 'true')
+                      ? Theme.of(context).primaryColor
+                      : Theme.of(context).unselectedWidgetColor,
+                  shape: BoxShape.circle,
+                ),
+                child: IconButton(
+                  onPressed:
+                      // (){
+                      //   print(mapResponse["status"]+"mkakdfmadsf");
+                      // },
+                      (mapResponse['status'].toString() == "true")
+                          ? () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => StopChargingScreen(
+                                    chargingStartedDetails:
+                                        ConnectHiveSessionData
+                                            .getChargingStartedDetails,
+                                    chargingScheduledDetails:
+                                        ConnectHiveSessionData
+                                            .getChargingScheduledDetails,
+                                  ),
+                                ),
+                              );
+                            }
+                          : () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => MainScreen()));
+                            },
+                  /*onPressed:
                 (ConnectHiveSessionData.getIsChargingStarted ==
                             true ||
                         ConnectHiveSessionData.getIsChargingScheduled == true)
@@ -329,17 +332,16 @@ class _MainScreenState extends State<MainScreen> {
                         );
                       }
                     : null,*/
-                icon: SizedBox(
-                  width: 20.sp,
-                  height: 20.sp,
-                  child: SvgPicture.asset(
-                    'assets/svg/Battery.svg',
-                    color: Colors.white,
-                    fit: BoxFit.contain,
+                  icon: SizedBox(
+                    width: 20.sp,
+                    height: 20.sp,
+                    child: SvgPicture.asset(
+                      'assets/svg/Battery.svg',
+                      color: Colors.white,
+                      fit: BoxFit.contain,
+                    ),
                   ),
-                ),
-              )
-            );
+                ));
           },
         );
       },

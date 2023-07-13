@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -34,6 +35,7 @@ class _HomeScreenListViewState extends State<HomeScreenListView> {
   final UserLocationService _userLocationService = UserLocationService.instance;
   List _chargeBoxList = [];
   bool _isLoading = false;
+  ScrollController _scrollController = ScrollController();
 
   Future _getChargePointLocation() async {
     _isLoading = true;
@@ -53,7 +55,6 @@ class _HomeScreenListViewState extends State<HomeScreenListView> {
         isLocationServiceEnabled = await Geolocator.isLocationServiceEnabled();
 
         switch (isLocationServiceEnabled) {
-
           /// Location Service enabled
           case true:
             checkPermission = await Geolocator.checkPermission();
@@ -183,6 +184,12 @@ class _HomeScreenListViewState extends State<HomeScreenListView> {
     });
   }
 
+  bool _isScrolledToBottom() {
+    final maxScroll = _scrollController.position.maxScrollExtent;
+    final currentScroll = _scrollController.position.pixels;
+    return maxScroll - currentScroll <= 200;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -211,26 +218,65 @@ class _HomeScreenListViewState extends State<HomeScreenListView> {
                             if (notifierProvider
                                 .getFilteredChargeBoxList.isNotEmpty) {
                               return RefreshIndicator(
-                                color: Theme.of(context).primaryColor,
-                                onRefresh: () async => Future.wait([
-                                  _getChargePointLocation(),
-                                ]),
-                                child: ListView.separated(
-                                  shrinkWrap: true,
-                                  controller: ScrollController(),
-                                  padding: EdgeInsets.zero,
-                                  physics: BouncingScrollPhysics(),
-                                  itemCount: notifierProvider
-                                      .getFilteredChargeBoxList.length,
-                                  itemBuilder: (context, index) {
-                                    Map detailsData = notifierProvider
-                                        .getFilteredChargeBoxList[index];
-                                    return _buildChargeBoxData(detailsData);
-                                  },
-                                  separatorBuilder: (context, index) =>
-                                      Divider(height: 0.0),
-                                ),
-                              );
+                                  //triggerMode: RefreshIndicatorTriggerMode.values.,
+                                  color: Theme.of(context).primaryColor,
+                                  onRefresh: () async => Future.wait([
+                                        _getChargePointLocation(),
+                                      ]),
+                                  child: ListView.separated(
+                                    shrinkWrap: true,
+                                    controller: _scrollController
+                                      ..addListener(() {
+                                        _deBouncer.run(() {
+                                          if (_isScrolledToBottom() &&
+                                              !notifierProvider.isLoading) {
+                                            debugPrint('just scrolled');
+                                            //notifierProvider.setIsLoading(true);
+                                            notifierProvider.loadMoreData();
+                                          }
+                                        });
+                                      }),
+                                    padding: EdgeInsets.zero,
+                                    physics: BouncingScrollPhysics(),
+                                    itemCount: notifierProvider
+                                            .getPaginatedList.length +
+                                        (notifierProvider.isLoading ? 1 : 0),
+                                    itemBuilder: (context, index) {
+                                      if (index <
+                                          notifierProvider
+                                              .getPaginatedList.length) {
+                                        Map detailsData = notifierProvider
+                                            .getPaginatedList[index];
+                                        return _buildChargeBoxData(detailsData);
+                                      } else {
+                                        return Padding(
+                                          padding: EdgeInsets.all(16.0),
+                                          child: Center(
+                                            child: Container(
+                                              width: 40.0,
+                                              height: 40.0,
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: Colors.white,
+                                                border: Border.all(
+                                                  color: Colors.white,
+                                                  width: 2.0,
+                                                ),
+                                              ),
+                                              child: CircularProgressIndicator(
+                                                strokeWidth: 2.0,
+                                                valueColor:
+                                                    AlwaysStoppedAnimation<
+                                                        Color>(Colors.green),
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                    },
+                                    separatorBuilder: (context, index) =>
+                                        Divider(height: 0.0),
+                                  ));
                             } else if (notifierProvider
                                 .getChargeBoxList.isEmpty) {
                               return _buildNoChargingPoints;
@@ -393,7 +439,7 @@ class _HomeScreenListViewState extends State<HomeScreenListView> {
             MaterialPageRoute(
               builder: (context) => StartChargingScreen(
                 chargeBoxId: detailsData['charge_box_id'],
-                chargeType: detailsData['charge_type'], 
+                chargeType: detailsData['charge_type'],
                 tariffData: detailsData['tariff'],
               ),
             ));
@@ -521,6 +567,7 @@ class _HomeScreenListViewState extends State<HomeScreenListView> {
                         _textEditingController.text = '';
                         notifierProvider
                             .applyFilter(_textEditingController.text);
+                        //notifierProvider.setPaginatedListInitial();
                       },
                       icon: Icon(
                         Icons.clear,
@@ -556,6 +603,7 @@ class _HomeScreenListViewState extends State<HomeScreenListView> {
     _streamDataController.close();
     _streamSearchController.close();
     _textEditingController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 }

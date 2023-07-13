@@ -23,6 +23,7 @@ class ConnectApi {
   }) async {
     http.Response? response;
     try {
+      log('${ConnectHiveSessionData.getToken}');
       debugPrint('postCallMethod');
       if (!customUrl) {
         debugPrint('url:${_BASE_URL + url}');

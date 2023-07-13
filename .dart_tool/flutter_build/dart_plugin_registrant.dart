@@ -12,11 +12,10 @@ import 'package:path_provider_android/path_provider_android.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:geolocator_apple/geolocator_apple.dart';
 import 'package:google_maps_flutter_ios/google_maps_flutter_ios.dart';
-import 'package:path_provider_foundation/path_provider_foundation.dart';
+import 'package:path_provider_ios/path_provider_ios.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider_linux/path_provider_linux.dart';
-import 'package:geolocator_apple/geolocator_apple.dart';
-import 'package:path_provider_foundation/path_provider_foundation.dart';
+import 'package:path_provider_macos/path_provider_macos.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider_windows/path_provider_windows.dart';
 
@@ -88,10 +87,10 @@ class _PluginRegistrant {
       }
 
       try {
-        PathProviderFoundation.registerWith();
+        PathProviderIOS.registerWith();
       } catch (err) {
         print(
-          '`path_provider_foundation` threw an error: $err. '
+          '`path_provider_ios` threw an error: $err. '
           'The app may not function as expected until you remove this plugin from pubspec.yaml'
         );
         rethrow;
@@ -120,20 +119,10 @@ class _PluginRegistrant {
 
     } else if (Platform.isMacOS) {
       try {
-        GeolocatorApple.registerWith();
+        PathProviderMacOS.registerWith();
       } catch (err) {
         print(
-          '`geolocator_apple` threw an error: $err. '
-          'The app may not function as expected until you remove this plugin from pubspec.yaml'
-        );
-        rethrow;
-      }
-
-      try {
-        PathProviderFoundation.registerWith();
-      } catch (err) {
-        print(
-          '`path_provider_foundation` threw an error: $err. '
+          '`path_provider_macos` threw an error: $err. '
           'The app may not function as expected until you remove this plugin from pubspec.yaml'
         );
         rethrow;

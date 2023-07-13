@@ -4,6 +4,8 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:greenpointev/app_common_widgets/shimmers/widgets/custom_pop_up.dart';
+import 'package:greenpointev/app_common_widgets/shimmers/widgets/image_animation.dart';
 import 'package:http/http.dart';
 // import 'package:stripe_payment/stripe_payment.dart';
 import 'package:flutter_stripe/flutter_stripe.dart' as fs;
@@ -51,30 +53,63 @@ class _StopChargingScreenState extends State<StopChargingScreen> {
   String? _transactionId;
   String? _connectorId;
   bool _isTesterEmail = false;
-  var mapResponse ={};
+  var mapResponse = {};
   var stopRes;
-  
-  Future postResnew() async {
-    var headers = {
-  'Content-Type': 'application/json'
-};
-var request = http.Request('POST', Uri.parse('https://api.greenpointev.com/inindia.tech/public/api/CharingStatus/${ConnectHiveSessionData.getEmail}'));
-request.body = json.encode({
-       'user': ConnectHiveSessionData.getEmail,
-      'status': 'false',
-});
-request.headers.addAll(headers);
 
-http.StreamedResponse response = await request.send();
-if (response.statusCode == 200) {
-  log("stop Charging api");
-  log(request.body);
-  log(await response.stream.bytesToString());
-  
-}
-else {
-  print(response.reasonPhrase);
-}
+  Future postResnew() async {
+    var headers = {'Content-Type': 'application/json'};
+    var request = http.Request(
+        'POST',
+        Uri.parse(
+            'https://api.greenpointev.com/inindia.tech/public/api/CharingStatus/${ConnectHiveSessionData.getEmail}'));
+    request.body = json.encode({
+      'user': ConnectHiveSessionData.getEmail,
+      'status': 'false',
+    });
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+    if (response.statusCode == 200) {
+      log('stop Charging api');
+      log(request.body);
+      log(await response.stream.bytesToString());
+    } else {
+      print(response.reasonPhrase);
+    }
+  }
+
+  void showStopChargingDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          shadowColor: Colors.transparent.withOpacity(0.3),
+          child: Container(
+            padding: EdgeInsets.all(16.sp),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                OnOffAnimation(),
+                SizedBox(height: 5.h),
+                Center(
+                  child: Text(
+                    //'Stop Charging in Progress...\n\nDo not press the back button...',
+                    'Do not press the back button...',
+                    style: TextStyle(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 
   /*_getGraphData() async {
@@ -105,7 +140,7 @@ else {
 
   void _setPaymentMethodType() {
     if (widget.chargingStartedDetails != null) {
-      _paymentMethodType = widget.chargingStartedDetails!.paymentMethodType  ;
+      _paymentMethodType = widget.chargingStartedDetails!.paymentMethodType;
     } else if (widget.chargingScheduledDetails != null) {
       _paymentMethodType = widget.chargingScheduledDetails!.paymentMethodType;
     }
@@ -130,31 +165,34 @@ else {
       _streamGetGraphData.sink.add(res);
     }
   }
+
   //! Call charging status api
- Future apicall() async {
+  Future apicall() async {
     http.Response responseL;
     //responseL=status as http.Response;
-    String url ='https://api.greenpointev.com/inindia.tech/public/api/CharingStatus/${ConnectHiveSessionData.getEmail}';
-    responseL = await http.get(Uri.parse(url),
-      headers: {"Content-Type": "application/json"},
+    String url =
+        'https://api.greenpointev.com/inindia.tech/public/api/CharingStatus/${ConnectHiveSessionData.getEmail}';
+    responseL = await http.get(
+      Uri.parse(url),
+      headers: {'Content-Type': 'application/json'},
     );
-    print("${responseL.statusCode}");
-    print("${responseL.body}");
-    
-    if(responseL.statusCode == 200){
+    print('${responseL.statusCode}');
+    print('${responseL.body}');
+
+    if (responseL.statusCode == 200) {
       setState(() {
-        
         mapResponse = json.decode(responseL.body);
-        print("data");
+        print('data');
       });
     }
   }
+
   Future _stopCharging() async {
     var res = await AppApiCollection.remoteStop(
       chargeBoxId: _chargeBoxDetails!.chargeBoxId,
       transactionId: _transactionId,
     );
-    
+
     return res;
   }
 
@@ -167,7 +205,6 @@ else {
   }
 
   // Delay
-  
 
   Future _getCost() async {
     await Future.delayed(const Duration(seconds: 10));
@@ -253,7 +290,7 @@ else {
     _setChargeBoxDetails();
     _setPaymentMethodType();
     _getGraphData();
-    
+
     _timer = Timer.periodic(Duration(minutes: 32), (timer) {
       _getGraphData();
     });
@@ -362,33 +399,46 @@ else {
   Widget get _buildStopChargingButton => InkWell(
         onTap: () async {
           switch (_paymentMethodType) {
-
             /// Token ID
             case PaymentMethodType.tokenId:
-              log("check 1");
-              _goBack();
+              log('check 1');
+
+              _pleaseWaitNotifier.value = true;
+              if (_pleaseWaitNotifier.value) {
+                showStopChargingDialog(context);
+              }
+
               await _stopCharging().then((val) async {
+                Navigator.of(context).pop();
+                if (val == null) {
+                  Navigator.of(context).pop();
+                  showAppSnackBar(
+                    context: context,
+                    title: 'Not Stopped',
+                    response: {
+                      'errorMsg':
+                          'Something went wrong, please try after some time',
+                    },
+                  );
+                }
+
                 Map? res = val;
                 if (res != null) {
                   switch (padQuotes(res['Status'])) {
-
                     /// Rejected
                     case 'Rejected':
                       // status = 'true';
-                      log("check 2");
-
+                      log('check 2');
 
                       //1 delete hivedata
                       _deleteChargingDetails();
-                        _pleaseWaitNotifier.value = false;
+                      // 3 Go to home screen
+                      _pleaseWaitNotifier.value = false;
+                      Navigator.of(context).pop();
 
+                      // 2 change status as false
+                      postResnew();
 
-                        // 2 change status as false
-                        postResnew();
-
-
-                        // 3 Go to home screen
-                        _goBack();
                       showAppSnackBar(
                         context: context,
                         title: 'Stop Charging',
@@ -405,11 +455,13 @@ else {
                     /// Accepted
                     case 'Accepted':
                       // status = 'false';
-                      log("check 3");
+                      log('check 3');
                       postResnew();
-                      
+
                       _addHistory(transactionId: padQuotes(_transactionId));
                       await _deleteChargingDetails();
+                      _pleaseWaitNotifier.value = false;
+                      Navigator.of(context).pop();
                       break;
                     default:
                       // status = 'true';
@@ -429,20 +481,24 @@ else {
 
             /// Card Payment
             case PaymentMethodType.card_payment:
-            log("check 4");
+              log('check 4');
               _pleaseWaitNotifier.value = true;
+              if (_pleaseWaitNotifier.value) {
+                showStopChargingDialog(context);
+              }
               apicall();
               try {
                 await _stopCharging().then((val) async {
+                  Navigator.of(context).pop();
                   Map? res = val;
                   if (res != null) {
                     switch (padQuotes(res['Status'])) {
-
                       /// Rejected
                       case 'Rejected':
                         // status = 'true';
-                        log("check 5");
+                        log('check 5');
                         _pleaseWaitNotifier.value = false;
+                        Navigator.of(context).pop();
                         showAppSnackBar(
                           context: context,
                           title: 'Stop Charging',
@@ -451,13 +507,13 @@ else {
                           },
                         );
                         _addHistory(transactionId: padQuotes(_transactionId));
-                        
+
                         break;
 
                       /// Accepted
                       case 'Accepted':
                         // status = 'false';
-                        log("check 6");
+                        log('check 6');
                         _addHistory(transactionId: padQuotes(_transactionId));
 
                         fs.CardDetails? creditCard =
@@ -467,19 +523,20 @@ else {
                         StripeTransactionResponse transactionResponse =
                             await ConnectStripePaymentGateway
                                 .payViaExistingCard(
-                                  transId: _transactionId!,
+                          transId: _transactionId!,
                           amount: '$cost',
                           currency: 'GBP',
                           card: creditCard,
                         );
                         debugPrint(
                             'transactionResponse:\t${transactionResponse.message}');
-              
+
                         await _deleteChargingDetails();
+                        postResnew();
 
                         _pleaseWaitNotifier.value = false;
-                        postResnew();
-                        
+                        Navigator.of(context).pop();
+
                         _goBack();
                         break;
                       default:
