@@ -255,11 +255,12 @@ class _HistoryScreenState extends State<HistoryScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                padQuotes(detailsData['payment_method']),
+                padQuotes(detailsData['payment_method']) == 'Token ID'
+                    ? 'Token ID'
+                    : 'Credit Card',
                 textAlign: TextAlign.left,
                 style: Theme.of(context).textTheme.bodyText2,
               ),
-              
               Text(
                 (padQuotes(detailsData['start_timestamp']).isNotEmpty &&
                         padQuotes(detailsData['stop_timestamp']).isNotEmpty)

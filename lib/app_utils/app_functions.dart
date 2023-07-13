@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:another_flushbar/flushbar.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
@@ -319,7 +320,44 @@ String convertToCompanyDateFormat({
   }
 }
 
-///Calculate Duration (i.e, 00:00:00)
+// ///Calculate Duration (i.e, 00:00:00)
+// String calculateDuration({
+//   required String startTime,
+//   required String endTime,
+// }) {
+//   int hours;
+//   int minutes;
+//   int seconds;
+//   String duration;
+//   seconds =
+//       DateTime.parse(endTime).difference(DateTime.parse(startTime)).inSeconds;
+//   int n = seconds;
+//   n = n % (24 * 3600);
+//   hours = n ~/ 3600;
+//   n %= 3600;
+//   minutes = n ~/ 60;
+//   n %= 60;
+//   seconds = n;
+//   // duration = "${(hours.toString().length > 1)  ? '' : "0$hours"}h:"+
+//   // "${(minutes.toString().length > 1) ? minutes : "0$minutes"}m:"+"${(seconds.toString().length > 1) ? seconds : "0$seconds"}s";
+
+//   // duration =(hours!=0)? "${(hours.toString().length > 1)  ? hours : "0$hours"}h:":
+
+//   //     "${(minutes.toString().length > 1) ? minutes : "0$minutes"}m"
+//   //     ':'
+//   //     "${(seconds.toString().length > 1) ? seconds : "0$seconds"}s";
+//   if (hours == 0) {
+//     duration = "${(minutes.toString().length > 1) ? minutes : "0$minutes"}m";
+//     if (kDebugMode) {
+//       print(duration);
+//     }
+//   } else {
+//     duration = "${(hours.toString().length > 1) ? '' : "0$hours"}h:" +
+//         "${(minutes.toString().length > 1) ? minutes : "0$minutes"}m";
+//   }
+
+//   return duration;
+// }
 String calculateDuration({
   required String startTime,
   required String endTime,
@@ -337,22 +375,24 @@ String calculateDuration({
   minutes = n ~/ 60;
   n %= 60;
   seconds = n;
+  print(hours);
+  print(minutes);
+
   // duration = "${(hours.toString().length > 1)  ? '' : "0$hours"}h:"+
   // "${(minutes.toString().length > 1) ? minutes : "0$minutes"}m:"+"${(seconds.toString().length > 1) ? seconds : "0$seconds"}s";
 
   // duration =(hours!=0)? "${(hours.toString().length > 1)  ? hours : "0$hours"}h:":
-      
+
   //     "${(minutes.toString().length > 1) ? minutes : "0$minutes"}m"
   //     ':'
   //     "${(seconds.toString().length > 1) ? seconds : "0$seconds"}s";
-  if(hours==0){
-    duration = 
-  "${(minutes.toString().length > 1) ? minutes : "0$minutes"}m";
+  if (hours == 0) {
+    duration = "${(minutes.toString().length > 1) ? minutes : "0$minutes"}m";
+  } else {
+    duration = "${(hours >= 10) ? hours : "0$hours"}h:" +
+        "${(minutes.toString().length > 1) ? minutes : "0$minutes"}m";
   }
-  else{
-    duration = "${(hours.toString().length > 1)  ? '' : "0$hours"}h:"+
-  "${(minutes.toString().length > 1) ? minutes : "0$minutes"}m";
-  }
+
   return duration;
 }
 
